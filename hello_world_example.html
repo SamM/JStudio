@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!!!</title>
+    <style>
+        body{
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
+        h1{
+            margin: 0;
+            font-size: 5em;
+        }
+        #controls{
+            margin-bottom: 20px;
+        }
+    </style>
+
+    <script type="text/javascript" src="JStudio.js"></script>
+
+  </head>
+  <body>
+    <div id="controls"><button onclick="player.play()">&#9654; Play</button> <button onclick="player.stop()">&#9724; Stop</button> <button onclick="player.goto(0)">&#9664; Reset</button></div>
+
+    <script type="text/javascript">
+
+        // Create recorder and then record animation
+
+        var recorder = new JStudio.Recorder();
+
+         // Reset document to original state in first frame
+
+        var reset = recorder.goto(0);
+
+        reset(JStudio.record.player.frameRate(30));
+        reset(JStudio.record.element.remove("heading"));
+        reset(JStudio.record.element.style("body", "backgroundColor", "black"));
+
+        var intro = recorder.goto(1);
+
+        //intro(JStudio.record.console.log("Welcome to the Hello World animation!"));
+        intro(JStudio.record.stage.set("body", document.body));
+        intro(JStudio.record.element.create("heading", "h1", document.body));
+
+        // Spell out Hello World!!! one letter at a time
+
+        var heading = "Hello World!!!";
+        var color;
+        var h1_offset = 10;
+
+        for(var i=0; i<heading.length; i++){
+            recorder.goto(i+h1_offset)
+            (JStudio.record.element.set("heading", "innerHTML", heading.slice(0,i+1)))
+        }
+
+        // Fade background in and out
+
+        var fade_steps = 34;
+        var mid_fade = Math.round(fade_steps/2);
+        var i, frame, color;
+
+        for(i=0; i<fade_steps; i++){
+            color = Math.round(200*((i>=mid_fade?mid_fade-(i%mid_fade):i)/fade_steps));
+            frame = recorder.goto(i)
+            (JStudio.record.element.style("body", "backgroundColor", "rgb("+color+","+color+","+color+")"));
+        }
+
+        var exclaim_offset = heading.indexOf("!")+h1_offset;
+
+        // Slow down to 1 frame per second for exclamation marks
+
+        recorder.goto(exclaim_offset-1)
+        (JStudio.record.player.frameRate(1));
+
+        // Function to set background color to a random rgb color
+
+        function r256(){
+            return Math.floor(Math.random()*256);
+        }
+        function randomBG(){
+            document.body.style.backgroundColor = "rgb("+r256()+", "+r256()+", "+r256()+")";
+        }
+
+        // Heading turns yellow
+        // Background changes to random rgb color
+
+        recorder.goto(exclaim_offset)
+        (JStudio.record.element.style("heading", "color", "#FFFF00"))
+        (randomBG);
+
+        // Heading turns red
+        // Background changes to random rgb color
+
+        recorder.goto(exclaim_offset+1)
+        (JStudio.record.element.style("heading", "color", "#FF0000"))
+        (randomBG);
+
+        // Heading turns green
+        // Background changes to random rgb color
+
+        recorder.goto(exclaim_offset+2)
+        (JStudio.record.element.style("heading", "color", "#00FF00"))
+        (randomBG);
+
+        // Speed up again after exclamation marks
+
+        recorder.goto(exclaim_offset+3)
+        (JStudio.record.player.frameRate(30));
+
+        // Fade out and fly down heading
+
+        fade_steps = 10;
+        var margin;
+
+        for(i=0; i<fade_steps; i++){
+            color = Math.round(150*(1-(i/fade_steps)));
+            margin = Math.round(90*(i/fade_steps));
+            frame = recorder.goto(i+exclaim_offset+3)
+            (JStudio.record.element.style("heading", "color", "rgb("+color+","+color+","+color+")"))
+            (JStudio.record.element.style("heading", "marginTop", margin+"px"));
+        }
+
+        // Create player and set preferences
+
+        var player = new JStudio.Player();
+        player.loop = true;
+        player.frameRate = 30;
+        player.reverse = false;
+
+        // Load recording into player
+        player.load(recorder.export());
+        
+    </script>
+  </body>
+</html>
