@@ -1,7 +1,9 @@
 # JStudio
 An animation studio package written in Javascript for use in browser or with Node.js. It has no dependencies and can be included as a single .js file.
 
-Check out the [hello_world_example.html](https://samm.github.io/JStudio/hello_world_example.html) file to see a simple example of an animation made with JStudio.
+## Demos
+ - [hello_world_example.html](https://samm.github.io/JStudio/hello_world_example.html)
+ - [resize_popup_example.html](https://samm.github.io/JStudio/resize_popup_example.html)
 
 ## JStudio.Recorder
 The `JStudio.Recorder` class is used to record animations to be played by the JStudio.Player class.
