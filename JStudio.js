@@ -212,13 +212,13 @@ var JStudio = (function(){
         };
     };
 
-    JStudio.record.window = {};
-    JStudio.record.window.resizeBy = function(win, relW, relH){
+    JS.record.window = {};
+    JS.record.window.resizeBy = function(win, relW, relH){
         return function(stage){
             win.resizeBy(relW, relH);
         };
     };
-    JStudio.record.window.resizeTo = function(win, width, height){
+    JS.record.window.resizeTo = function(win, width, height){
         return function(stage){
             win.resizeTo(width, height);
         };
