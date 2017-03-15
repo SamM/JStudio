@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Wiggle Wiggle Wiggle!!!</title>
+    <style>
+        body{
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
+        h1{
+            margin: 0;
+            font-size: 5em;
+        }
+        #controls{
+            margin-bottom: 20px;
+        }
+    </style>
+
+    <script type="text/javascript" src="JStudio.js"></script>
+
+  </head>
+  <body>
+    <div id="controls"><button onclick="player.play()">&#9654; Play</button> <button onclick="player.stop()">&#9724; Stop</button> <button onclick="player.goto(0)">&#9664; Reset</button></div>
+
+    <script type="text/javascript">
+
+        //
+        // PopUp Window that resizes in and out
+        //
+
+        // Create recorder and then record animation
+
+        var recorder = new JStudio.Recorder();
+
+         // Reset document to original state in first frame
+
+        var reset = recorder.goto(0);
+
+        var origWidth = window.outerWidth;
+        var origHeight = window.outerHeight;
+
+        reset(JStudio.record.element.style(document.body, "backgroundColor", "black"));
+        reset(JStudio.record.window.resizeTo(window, origWidth, origHeight));
+
+        var steps = 50;
+        var i, color;
+        for(i = 0; i < steps; i++){
+            color = Math.floor(256*(i/steps));
+            recorder.next(JStudio.record.window.resizeBy(window, -2,-2))
+            (JStudio.record.element.style(document.body, "backgroundColor", "rgb("+color+",0,0)"));
+        }
+
+        for(i = 0; i < steps; i++){
+            color = Math.floor(256*(1-(i/steps)));
+            recorder.next(JStudio.record.window.resizeBy(window, 2,2))
+            (JStudio.record.element.style(document.body, "backgroundColor", "rgb("+color+",0,0)"));
+        }
+
+
+        // Create player and set preferences
+
+        var player = new JStudio.Player();
+        player.loop = true;
+        player.frameRate = 30;
+        player.reverse = false;
+
+        // Load recording into player
+        player.load(recorder.export());
+        
+    </script>
+  </body>
+</html>

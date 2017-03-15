@@ -178,29 +178,29 @@ var JStudio = (function(){
         return function(stage){
             var element = typeof id=="string"?stage[id]:id;
             if(!element) return;
-            stage[id].parentNode.removeChild(stage[id]);
-            delete stage[id];
+            element.parentNode.removeChild(stage[id]);
+            if(typeof id == "string") delete stage[id];
         };
     };
     JS.record.element.appendTo = function(id, parent){
         return function(stage){
             var element = typeof id=="string"?stage[id]:id;
             if(!element) return;
-            parent.appendChild(stage[id]);
+            parent.appendChild(element);
         };
     };
     JS.record.element.set = function(id, attr, value){
         return function(stage){
             var element = typeof id=="string"?stage[id]:id;
             if(!element) return;
-            stage[id][attr] = value;
+            element[attr] = value;
         };
     };
     JS.record.element.style = function(id, attr, value){
         return function(stage){
             var element = typeof id=="string"?stage[id]:id;
             if(!element) return;
-            stage[id].style[attr] = value;
+            element.style[attr] = value;
         };
     };
 
@@ -210,7 +210,19 @@ var JStudio = (function(){
         return function(stage){
             console.log.apply(console, args);
         };
-    }
+    };
+
+    JStudio.record.window = {};
+    JStudio.record.window.resizeBy = function(win, relW, relH){
+        return function(stage){
+            win.resizeBy(relW, relH);
+        };
+    };
+    JStudio.record.window.resizeTo = function(win, width, height){
+        return function(stage){
+            win.resizeTo(width, height);
+        };
+    };
 
     return JS;
 
